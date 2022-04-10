@@ -48,6 +48,7 @@ $(function() {
                     }
                     layer.msg('注册成功')
                     $('#link_login').click()
+
                 }
             })
             //     var data = { username: $('.reg-box [name=username]').val(), password: $('.reg-box [name=password]').val() }

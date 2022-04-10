@@ -1,7 +1,7 @@
 $(function() {
         var layer = layui.layer
             //调用函数 获取用户信息
-        user()
+        getUserInfo()
             // 右上角退出功能
         $('#btnLogout').on('click', function() {
             layer.confirm('确定退出登录?', { icon: 3, title: '提示' }, function(index) {
@@ -17,31 +17,21 @@ $(function() {
             });
         })
     })
-    // 获取用户信息
-function user() {
+    // 获取用户信息并渲染头像
+function getUserInfo() {
     // 发起ajax请求
     $.ajax({
-            method: 'GET',
-            url: '/my/userinfo',
-            // headers: {
-            //     Authorization: localStorage.getItem('token') || ''
-            // },
-            success: function(res) {
-                console.log(res);
-                renderAvatar(res.data)
-            },
-            complete: function(res) {
-                // console.log(res)
-                // if (res.responseJSON.status === 1 && res.responseJSON.message === "身份认证失败！") {
-                //     // 强制清空token
-                //     localStorage.removeItem('token')
-                //         // 强制跳转登陆页面
-                //     location.href = 'login.html'
-                // }
-            }
-        })
-        // 渲染用户头像和名称
+        method: 'GET',
+        url: '/my/userinfo',
 
+        success: function(res) {
+
+            // 调用渲染头像的方法
+            renderAvatar(res.data)
+        }
+    })
+
+    // 渲染用户头像和名称
     function renderAvatar(user) {
         // 渲染昵称
         var name = user.nickname || user.username
