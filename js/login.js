@@ -34,16 +34,31 @@ $(function() {
     $('#form_reg').on('submit', function(e) {
         //阻止默认提交行为 
         e.preventDefault()
-            //发起ajax请求
-        var data = { username: $('.reg-box [name=username]').val(), password: $('.reg-box [name=password]').val() }
+            // 发起ajax请求
+        $.ajax({
+                method: 'post',
+                url: '/api/reguser',
+                data: {
+                    username: $('.reg-box [name=username]').val(),
+                    password: $('.reg-box [name=password]').val()
+                },
+                success: function(res) {
+                    if (res.status == 1) {
+                        return layer.msg('注册失败')
+                    }
+                    layer.msg('注册成功')
+                    $('#link_login').click()
+                }
+            })
+            //     var data = { username: $('.reg-box [name=username]').val(), password: $('.reg-box [name=password]').val() }
 
-        $.post('/api/reguser', data, function(res) {
-            if (res.status == 1) {
-                return layer.msg('注册失败')
-            }
-            layer.msg('注册成功')
-            $('#link_login').click()
-        })
+        //     $.post('/api/reguser', data, function(res) {
+        //         if (res.status == 1) {
+        //             return layer.msg('注册失败')
+        //         }
+        //         layer.msg('注册成功')
+        //         $('#link_login').click()
+        //     })
     })
 
     //----发起登录请求----
@@ -61,7 +76,7 @@ $(function() {
                 //将登陆成功的token存储到localStorage中，进行保存
             localStorage.setItem('token', res.token)
                 //跳转后台主页
-                // location.href = '/index.html'
+            location.href = '/index.html'
         })
     })
 
